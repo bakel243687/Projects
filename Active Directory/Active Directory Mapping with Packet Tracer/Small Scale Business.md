@@ -31,3 +31,4 @@ VLANs were added to the VLAN database to enable the network segmentation. The fo
 - VLAN20 - Servers
 - VLAN30 - MGT/IT
 
+#### Router

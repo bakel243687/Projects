@@ -14,4 +14,5 @@ Download the Raspberry Pi imager from the [Raspberry site](https://www.raspberry
 The use of the Raspberry Pi Imager on both Windows and Linux are same except for the installation process. For windows users, the installation process after downloading is still the same as anyother web downloaded software. 
 
 
-You go to the downloaded file and right click it then run as administrator. This would run the 
+You go to the downloaded file and right click it then run as administrator. This would run give you the above display whcih you would select yes. After this you just need to follow the installation process, it's nothing hard.
+

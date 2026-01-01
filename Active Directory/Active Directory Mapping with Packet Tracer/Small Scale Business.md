@@ -191,5 +191,118 @@ Default Gateway: 192.168.30.1
 
 
 **Access Control Lists**
-ACLs have multiple uses but in this project, I basically used it to filter packets by instructing the router to permit and deny certain traffics
 
+ACLs have multiple uses but in this project, I basically used it to filter packets by instructing the router to permit and deny certain traffics. This will be done to ensure least privilege within the network.
+
+**Security Policy Implemented**
+
+- Users can access servers, but only for normal services
+- Users cannot access IT management network
+- Users cannot manage network devices
+- IT can access everything
+- All other traffic is denied by default
+
+### Identify the router interfaces
+
+On RTR-EDGE-01, the following has already been created:
+
+- Gi0/0.10 → VLAN 10 (Users)
+- Gi0/0.20 → VLAN 20 (Servers)
+- Gi0/0.30 → VLAN 30 (IT)
+
+In reality, users do not require all access to servers. Therefore, in this lab, the following is allowed:
+
+- DNS (TCP/UDP 53)
+- File services (SMB – TCP 445)
+- ICMP (ping, for testing)
+
+#### Create the extended ACL
+
+**Open the router CLI.**
+```
+enable
+configure terminal
+```
+
+**Create a named extended ACL (much easier to read and document):**
+```
+ip access-list extended USERS_TO_SERVERS
+```
+
+Currently in the ACL configuration mode.
+
+**Allow DNS (Users → Servers)**
+```
+permit udp 192.168.10.0 0.0.0.255 192.168.20.0 0.0.0.255 eq 53
+permit tcp 192.168.10.0 0.0.0.255 192.168.20.0 0.0.0.255 eq 53
+```
+
+DNS uses both UDP and TCP. Forgetting one breaks things in subtle ways.
+
+**Allow file access (SMB)**
+```
+permit tcp 192.168.10.0 0.0.0.255 192.168.20.0 0.0.0.255 eq 445
+```
+
+This allows users to access file shares without allowing full server control.
+
+**Allow ICMP (testing and troubleshooting)**
+```
+permit icmp 192.168.10.0 0.0.0.255 192.168.20.0 0.0.0.255
+```
+
+This is necessary to test the network
+
+**Explicitly deny Users → IT Management**
+```
+deny ip 192.168.10.0 0.0.0.255 192.168.30.0 0.0.0.255
+```
+
+With this, users can not interact to IT/Management on the network 
+
+
+**Exit ACL mode:**
+```
+exit
+```
+
+**Apply the ACL to the correct interface**
+
+Now bind the ACL to VLAN 10 inbound.
+```
+interface gigabitEthernet0/0.10
+ip access-group USERS_TO_SERVERS in
+exit
+```
+
+**Save the configuration**
+```
+end
+write memory
+```
+
+**Test the behavior**
+
+From a User PC (VLAN 10):
+
+Should work
+- Ping 192.168.20.10 (Server)
+- Access file services (conceptually)
+- DNS queries (conceptually)
+
+Should fail
+- Ping 192.168.30.10 (IT PC)
+- Any attempt to access router or switch management
+
+  From IT Admin PC (VLAN 30):
+- Everything should still work
+
+If something breaks unexpectedly, check:
+- ACL order (top-down)
+- Interface direction (in, not out)
+- Correct subinterface
+
+**Verify on the router**
+```
+show access-lists
+```

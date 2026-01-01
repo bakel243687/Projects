@@ -161,9 +161,9 @@ write memory
 ```
 
 End Device IP Configuration
-User PC (Sales Example)
+User PC (Sales)
 
-IP Address: 192.168.10.10
+IP Address: 192.168.10.10 & 192.168.10.20
 
 Subnet Mask: 255.255.255.0
 
@@ -171,7 +171,7 @@ Default Gateway: 192.168.10.1
 
 Server Example
 
-IP Address: 192.168.20.10
+IP Address: 192.168.20.10 & 192.168.20.20
 
 Subnet Mask: 255.255.255.0
 
@@ -188,3 +188,8 @@ Default Gateway: 192.168.30.1
 **Verification and Testing**
 **Router Verification**
 ```show ip interface brief```
+
+
+**Access Control Lists**
+ACLs have multiple uses but in this project, I basically used it to filter packets by instructing the router to permit and deny certain traffics
+

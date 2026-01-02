@@ -235,7 +235,9 @@ Currently in the ACL configuration mode.
 ```
 permit udp 192.168.10.0 0.0.0.255 192.168.20.0 0.0.0.255 eq 53
 permit tcp 192.168.10.0 0.0.0.255 192.168.20.0 0.0.0.255 eq 53
+
 ```
+Note: DNS via TCp is optional and not recommended in this lab
 
 DNS uses both UDP and TCP. Forgetting one breaks things in subtle ways.
 

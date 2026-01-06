@@ -308,3 +308,122 @@ If something breaks unexpectedly, check:
 ```
 show access-lists
 ```
+
+**Give the Switch a Management Identity**
+
+The switch needs:
+
+- A hostname
+- A management IP
+- A management VLAN
+
+You already have VLANs. We’ll use VLAN 30 (IT/Admin).
+
+Create the management VLAN (if not already done)
+```
+configure terminal
+vlan 30
+name IT_ADMIN
+exit
+```
+
+**Assign a Management IP to the Switch**
+
+Assigning an ip for the SSH for admins only (SSH access).
+```
+interface vlan 30
+ip address 192.168.30.2 255.255.255.0
+no shutdown
+exit
+```
+
+Now, to tell the switch how to reach other networks:
+```
+ip default-gateway 192.168.30.1
+```
+
+That gateway is your router subinterface for VLAN 30.
+
+**Secure Privileged Access (Passwords)**
+
+**Set the enable (privileged EXEC) password**
+```
+enable secret STRONG_ENABLE_PASSWORD
+```
+
+This is hashed. Always preferred over enable password.
+
+**Secure console access**
+```
+line console 0
+password CONSOLE_PASSWORD
+login
+exit
+```
+
+Console access is physical access. Still worth locking.
+
+Secure VTY lines (remote access)
+line vty 0 4
+login local
+transport input ssh
+exit
+
+
+We explicitly disable Telnet here. Telnet is plaintext nostalgia.
+
+**Create Local Admin Accounts**
+
+Created a user name and secret for the user.
+
+
+```username admin privilege 15 secret ADMIN_PASSWORD```
+
+
+Privilege 15 = full admin rights.
+
+**Enable SSH (Critical)**
+
+SSH doesn’t exist magically. It must be built. Now, I made a mistake which made me spend a little more time on this step. I didn't change the hostname of my switch which ended up giving me an error 
+
+**Set domain name (required for crypto)**
+```
+
+ip domain-name corp.local
+
+Generate RSA keys
+crypto key generate rsa
+```
+
+Choose:
+```
+1024 bits (minimum)
+2048 bits (better, if Packet Tracer allows)
+```
+
+**Force SSH version 2**
+```ip ssh version 2```
+
+Now the switch accepts encrypted management sessions only.
+
+**Add a Legal / Warning Banner**
+
+This establishes authorized use, which matters in real environments.
+```
+banner motd #
+Unauthorized access is prohibited.
+All activity is monitored and logged.
+#
+```
+
+Anyone connecting sees this before login.
+
+**Verify Everything done so far**
+
+Running the following commands and reading through them:
+```
+show ip interface brief
+show running-config
+show ip ssh
+show users
+```

@@ -161,14 +161,334 @@ At this stage, the Domain Controller can:
 
 ---
 
-## Planned Next Steps
+This phase of the project focused on:
 
-* Create domain users, groups, and service accounts
-* Join Windows and Linux clients to the domain
-* Apply Group Policy Objects (GPOs)
-* Introduce intentional misconfigurations for pentesting
-* Integrate logging with a SIEM platform
-* Simulate real-world AD attack paths and detections
+Creating Organizational Units (OUs)
+
+Creating domain users
+
+Creating security groups
+
+Creating service accounts
+
+Assigning group memberships
+
+Joining a Windows 11 Pro machine to the domain
+
+Validating Kerberos authentication
+
+Applying baseline security policy
+
+
+---
+
+2. Organizational Unit Structure
+
+A minimal and scalable OU structure was implemented for a small-scale business:
+
+DC=lab,DC=local
+│
+├── OU=Users
+│   ├── OU=Staff
+│   └── OU=Admins
+│
+├── OU=Computers
+│
+└── OU=ServiceAccounts
+
+OU Creation Commands
+```
+samba-tool ou create "OU=Users,DC=lab,DC=local"
+samba-tool ou create "OU=Staff,OU=Users,DC=lab,DC=local"
+samba-tool ou create "OU=Admins,OU=Users,DC=lab,DC=local"
+samba-tool ou create "OU=Computers,DC=lab,DC=local"
+samba-tool ou create "OU=ServiceAccounts,DC=lab,DC=local"
+```
+
+---
+
+3. Creating Domain Users
+
+Domain users were created and placed inside the appropriate OU.
+
+Example: Create Staff User
+
+samba-tool user create john.doe Password@123 \
+  --given-name=John \
+  --surname=Doe \
+  --userou="OU=Staff,OU=Users"
+
+Example: Create IT Admin User
+
+samba-tool user create it.admin StrongPass@123 \
+  --given-name=IT \
+  --surname=Admin \
+  --userou="OU=Admins,OU=Users"
+
+
+---
+
+4. Creating Security Groups
+
+Security groups were created to manage access control via group-based permissions.
+
+Create Groups
+
+samba-tool group add Sales
+samba-tool group add IT
+samba-tool group add HR
+
+Add Users to Groups
+
+samba-tool group addmembers Sales john.doe
+samba-tool group addmembers IT it.admin
+
+Verify Group Membership
+
+samba-tool group listmembers Sales
+
+
+---
+
+5. Creating Service Accounts
+
+Service accounts are used for applications or services requiring domain authentication.
+
+Create Service Account
+
+samba-tool user create svc-backup SecureSvcPass@123 \
+  --userou="OU=ServiceAccounts,DC=lab,DC=local"
+
+Optional: Prevent interactive logon (recommended later via GPO).
+
+Service accounts are isolated in a dedicated OU to allow targeted security policies.
+
+
+---
+
+6. Joining Windows 11 Pro to the Domain
+
+Pre-Join Requirements:
+
+Windows version: Windows 11 Pro
+
+DNS manually set to Domain Controller IP
+
+Network connectivity confirmed
+
+Time synchronized
+
+
+DNS Configuration
+
+Set preferred DNS to:
+
+192.168.100.10
+
+This is critical for domain resolution.
+
+Testing Domain resolution
+
+In the command prompt, ```ping lab.local```
+
+
+---
+
+Domain Join Process
+
+1. Open System Properties
+
+
+2. Click Change
+
+
+3. Select Domain
+
+
+4. Enter:
+
+
+
+lab.local
+
+5. Authenticate with:
+
+
+
+Administrator
+
+6. Restart the machine
+
+
+
+
+---
+
+7. Resolving Domain Join Conflict
+
+Encountered Error:
+
+> Access is denied
+Existing computer account already present
+
+
+
+Resolution:
+
+Check Existing Computer Objects
+
+samba-tool computer list
+
+Delete Stale Computer Object
+
+samba-tool computer delete DESKTOP-N5VMDE6
+
+Then retry domain join.
+
+
+---
+
+8. Logging in as Domain Users
+
+After successful join:
+
+At login screen:
+
+LAB\john.doe
+
+or
+
+john.doe@lab.local
+
+On first login:
+
+User profile is created
+
+Kerberos ticket is issued
+
+Group memberships applied
+
+
+
+---
+
+9. Verifying Kerberos Authentication
+
+On Windows client:
+
+klist
+
+Expected output includes:
+
+krbtgt/LAB.LOCAL
+
+This confirms:
+
+Domain trust established
+
+Kerberos functioning
+
+Secure authentication in place
+
+
+
+---
+
+10. Applying Baseline Security GPO
+
+Download the RSAT: Group Policy add-on through Window Settings > System > Optional Features
+
+Using RSAT (on admin workstation):
+
+1. Open:
+
+gpmc.msc
+
+
+2. Create new GPO:
+
+Baseline-Security
+
+
+3. Link to domain
+
+
+
+Password Policy Configured
+
+Path:
+
+Computer Configuration
+→ Policies
+→ Windows Settings
+→ Security Settings
+→ Account Policies
+→ Password Policy
+
+Configured:
+
+Minimum password length: 12
+
+Password complexity: Enabled
+
+Account lockout threshold: 5 attempts
+
+
+
+---
+
+11. Validation
+
+On Windows client:
+
+gpupdate /force
+
+Test:
+
+Failed logon attempts
+
+Weak password rejection
+
+
+On Domain Controller, monitor logs for:
+
+Event ID 4624 – Successful logon
+
+Event ID 4625 – Failed logon
+
+Event ID 4768 – Kerberos TGT request
+
+Event ID 4740 – Account lockout
+
+
+
+---
+
+12. Current Lab State
+
+At this stage, the lab includes:
+
+* Functional Samba Active Directory Domain
+
+* Structured OU design
+
+* Group-based access control
+
+* Service account isolation
+
+* Windows client domain integration
+
+* Kerberos authentication validation
+
+* Baseline security policy enforcement
+
+
+
+
+
+---
+
+Next progression: controlled file share permissions or centralized log monitoring integration.
 
 ---
 

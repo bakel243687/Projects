@@ -13,6 +13,22 @@ At first, I was clueless and it sent me into researching and browsing until some
 
 Throughout the troubleshooting process, my approach was systematic. I identified symptoms, formed logical assumptions, tested one solution at a time, and observed the results before moving forward. Instead of rushing to conclusions, I treated each error as information guiding me toward the solution. This experience reinforced the importance of patience, careful analysis, and methodical problem-solving when dealing with computer system errors.
 
+Faced issues with creating Organizational Units which was due to the repitition of the Domain Controller which was not necessary. An example of the mistake made below
+```
+sudo samba-tool user create it.admin "somethingsimple" \
+  --given-name=IT \
+  --surname=Administrator \
+  --userou="OU=Admins,OU=Users,DC=lab,DC=local"
+```
+Meanwhile, I was to do the below
+```
+sudo samba-tool user create it.admin "somethingsimple" \
+  --given-name=IT \
+  --surname=Administrator \
+  --userou="OU=Admins,OU=Users"
+```
+I didn't realize until I read the error message I got from the failed attempt which had a repitition of the ```DC=lab, DC=local```
+
 ## Project Overview
 
 This project documents the design and implementation of a **functional Active Directory Domain Controller** using **Samba AD on a Raspberry Pi**, integrated into a VLAN-segmented enterprise network. The goal is to build a realistic, security-aware lab suitable for learning, testing, and demonstrating Active Directory administration, authentication workflows, and future pentesting or SIEM detection scenarios.

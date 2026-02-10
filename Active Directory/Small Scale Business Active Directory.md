@@ -81,6 +81,8 @@ The Domain Controller provides **DNS, Kerberos, LDAP, and authentication service
 * Winbind
 * DNS utilities
 
+```sudo apt install samba Kerberos winbind dns-util```
+
 ### Disabled Conflicting Services
 
 * Stopped and disabled `smbd`, `nmbd`, and standalone `winbind`

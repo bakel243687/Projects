@@ -1,41 +1,22 @@
 # Raspberry Pi Active Directory Domain Controller (Samba AD)
 
-## Problem Faced
-
-Enountered an issue with the Raspberry Pi not booting up. The device shows sign of life before turning back off. I decided to inspect the internal hardware. I powered down the system and checked the power source as well as the the router (MiFi) being used, I discovered the power supply cable for the Raspberry Pi was faulty and the router (MiFi) was low on battery. I immediately arranged for a new power supply cable and ensured full charge of the router (MiFi) This action improved system stability, confirming that my reasoning was on the right track.
-
-Immediately after the previously resolved issue, another one came up 
-```Cannot find KDC for realm "LAB.LOCAL" while getting initial credentials```
-At first, I was clueless and it sent me into researching and browsing until something hit me and I went back to reinstall the Samba AD and I realized that I had made a mistake in the Name of the Kerberos server for the realm and also the Administrative server too. Once I resolved this, I got the service working smoothly. Now, I can go on with Adding clients 
-
-Throughout the troubleshooting process, my approach was systematic. I identified symptoms, formed logical assumptions, tested one solution at a time, and observed the results before moving forward. Instead of rushing to conclusions, I treated each error as information guiding me toward the solution. This experience reinforced the importance of patience, careful analysis, and methodical problem-solving when dealing with computer system errors.
-
-Faced issues with creating Organizational Units which was due to the repitition of the Domain Controller which was not necessary. An example of the mistake made below
-```
-sudo samba-tool user create it.admin "somethingsimple" \
-  --given-name=IT \
-  --surname=Administrator \
-  --userou="OU=Admins,OU=Users,DC=lab,DC=local"
-```
-Meanwhile, I was to do the below
-```
-sudo samba-tool user create it.admin "somethingsimple" \
-  --given-name=IT \
-  --surname=Administrator \
-  --userou="OU=Admins,OU=Users"
-```
-I didn't realize until I read the error message I got from the failed attempt which had a repitition of the ```DC=lab, DC=local```
-
-Discovered overheating of the Raspberry Pi during use which is not normal. I found out the fans was not running. I went to the config file fire the device using the below command
-```nano /boot/firmware/config.txt```
-
-In the config.txt file, I was able to turn on the fan and maintain a steady temperature of 40°C
 
 ## Project Overview
 
 This project documents the design and implementation of a **functional Active Directory Domain Controller** using **Samba AD on a Raspberry Pi**, integrated into a VLAN-segmented enterprise network. The goal is to build a realistic, security-aware lab suitable for learning, testing, and demonstrating Active Directory administration, authentication workflows, and future pentesting or SIEM detection scenarios.
 
 The Domain Controller provides **DNS, Kerberos, LDAP, and authentication services**, closely mirroring a Windows-based AD environment.
+
+---
+
+## Purpose of This Lab
+
+This project is designed for:
+
+* Active Directory learning and administration
+* Cybersecurity and pentesting practice
+* SIEM detection engineering
+* Portfolio demonstration of real-world IAM skills
 
 ---
 
@@ -130,7 +111,7 @@ The generated Kerberos configuration was copied to `/etc/krb5.conf` for system-w
 
 ## Organizational Structure
 
-Created a realistic **Organizational Unit (OU)** hierarchy to reflect an enterprise environment:
+Created an **Organizational Unit (OU)** hierarchy to reflect an enterprise environment:
 
 ```
 LAB.LOCAL
@@ -186,7 +167,7 @@ Applying baseline security policy
 
 ---
 
-2. Organizational Unit Structure
+### Organizational Unit Structure
 
 A minimal and scalable OU structure was implemented for a small-scale business:
 
@@ -211,7 +192,7 @@ samba-tool ou create "OU=ServiceAccounts,DC=lab,DC=local"
 
 ---
 
-3. Creating Domain Users
+### Creating Domain Users
 
 Domain users were created and placed inside the appropriate OU.
 
@@ -232,7 +213,7 @@ samba-tool user create it.admin StrongPass@123 \
 
 ---
 
-4. Creating Security Groups
+### Creating Security Groups
 
 Security groups were created to manage access control via group-based permissions.
 
@@ -254,7 +235,7 @@ samba-tool group listmembers Sales
 
 ---
 
-5. Creating Service Accounts
+### Creating Service Accounts
 
 Service accounts are used for applications or services requiring domain authentication.
 
@@ -270,7 +251,7 @@ Service accounts are isolated in a dedicated OU to allow targeted security polic
 
 ---
 
-6. Joining Windows 11 Pro to the Domain
+### Joining Windows 11 Pro to the Domain
 
 Pre-Join Requirements:
 
@@ -328,7 +309,7 @@ Administrator
 
 ---
 
-7. Resolving Domain Join Conflict
+### Resolving Domain Join Conflict
 
 Encountered Error:
 
@@ -352,7 +333,7 @@ Then retry domain join.
 
 ---
 
-8. Logging in as Domain Users
+### Logging in as Domain Users
 
 After successful join:
 
@@ -376,7 +357,7 @@ Group memberships applied
 
 ---
 
-9. Verifying Kerberos Authentication
+### Verifying Kerberos Authentication
 
 On Windows client:
 
@@ -398,7 +379,7 @@ Secure authentication in place
 
 ---
 
-10. Applying Baseline Security GPO
+### Applying Baseline Security GPO
 
 Download the RSAT: Group Policy add-on through Window Settings > System > Optional Features
 
@@ -441,7 +422,7 @@ Account lockout threshold: 5 attempts
 
 ---
 
-11. Validation
+### Validation
 
 On Windows client:
 
@@ -496,14 +477,36 @@ Next progression: controlled file share permissions or centralized log monitorin
 
 ---
 
-## Purpose of This Lab
+## Problem Faced
 
-This project is designed for:
+Enountered an issue with the Raspberry Pi not booting up. The device shows sign of life before turning back off. I decided to inspect the internal hardware. I powered down the system and checked the power source as well as the the router (MiFi) being used, I discovered the power supply cable for the Raspberry Pi was faulty and the router (MiFi) was low on battery. I immediately arranged for a new power supply cable and ensured full charge of the router (MiFi) This action improved system stability, confirming that my reasoning was on the right track.
 
-* Active Directory learning and administration
-* Cybersecurity and pentesting practice
-* SIEM detection engineering
-* Portfolio demonstration of real-world IAM skills
+Immediately after the previously resolved issue, another one came up 
+```Cannot find KDC for realm "LAB.LOCAL" while getting initial credentials```
+At first, I was clueless and it sent me into researching and browsing until something hit me and I went back to reinstall the Samba AD and I realized that I had made a mistake in the Name of the Kerberos server for the realm and also the Administrative server too. Once I resolved this, I got the service working smoothly. Now, I can go on with Adding clients 
+
+Throughout the troubleshooting process, my approach was systematic. I identified symptoms, formed logical assumptions, tested one solution at a time, and observed the results before moving forward. Instead of rushing to conclusions, I treated each error as information guiding me toward the solution. This experience reinforced the importance of patience, careful analysis, and methodical problem-solving when dealing with computer system errors.
+
+Faced issues with creating Organizational Units which was due to the repitition of the Domain Controller which was not necessary. An example of the mistake made below
+```
+sudo samba-tool user create it.admin "somethingsimple" \
+  --given-name=IT \
+  --surname=Administrator \
+  --userou="OU=Admins,OU=Users,DC=lab,DC=local"
+```
+Meanwhile, I was to do the below
+```
+sudo samba-tool user create it.admin "somethingsimple" \
+  --given-name=IT \
+  --surname=Administrator \
+  --userou="OU=Admins,OU=Users"
+```
+I didn't realize until I read the error message I got from the failed attempt which had a repitition of the ```DC=lab, DC=local```
+
+Discovered overheating of the Raspberry Pi during use which is not normal. I found out the fans was not running. I went to the config file fire the device using the below command
+```nano /boot/firmware/config.txt```
+
+In the config.txt file, I was able to turn on the fan and maintain a steady temperature of 40°C
 
 ---
 

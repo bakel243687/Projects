@@ -1,9 +1,8 @@
-ñ# Raspberry Pi Active Directory Domain Controller (Samba AD)
+# Raspberry Pi Active Directory Domain Controller (Samba AD)
 
-# Problem faced
-My initial thought process was to avoid assumptions and focus on observation. I paid close attention to when the errors occurred and what actions triggered them. This helped me narrow the issue down to internal components rather than external devices. I suspected memory-related problems because the system behavior was unpredictable and did not point clearly to one application or process.
+## Problem Faced
 
-After considering this, I decided to inspect the internal hardware. I powered down the system and checked the power source as well as the the router (MiFi) being used, I discovered the power supply cable for the Raspberry Pi was faulty and the router (MiFi) was low on battery. I immediately arranged for a new power supply cable and ensured full charge of the router (MiFi) This action improved system stability, confirming that my reasoning was on the right track.
+Enountered an issue with the Raspberry Pi not booting up. The device shows sign of life before turning back off. I decided to inspect the internal hardware. I powered down the system and checked the power source as well as the the router (MiFi) being used, I discovered the power supply cable for the Raspberry Pi was faulty and the router (MiFi) was low on battery. I immediately arranged for a new power supply cable and ensured full charge of the router (MiFi) This action improved system stability, confirming that my reasoning was on the right track.
 
 Immediately after the previously resolved issue, another one came up 
 ```Cannot find KDC for realm "LAB.LOCAL" while getting initial credentials```
@@ -26,6 +25,11 @@ sudo samba-tool user create it.admin "somethingsimple" \
   --userou="OU=Admins,OU=Users"
 ```
 I didn't realize until I read the error message I got from the failed attempt which had a repitition of the ```DC=lab, DC=local```
+
+Discovered overheating of the Raspberry Pi during use which is not normal. I found out the fans was not running. I went to the config file fire the device using the below command
+```nano /boot/firmware/config.txt```
+
+In the config.txt file, I was able to turn on the fan and maintain a steady temperature of 40°C
 
 ## Project Overview
 

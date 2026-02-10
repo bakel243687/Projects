@@ -1,8 +1,6 @@
-# Raspberry Pi Active Directory Domain Controller (Samba AD)
+ñ# Raspberry Pi Active Directory Domain Controller (Samba AD)
 
-# What to do
-During the course of working on the system, I encountered several errors that affected both performance and stability. At first, the system showed signs of inconsistency such as freezing, slow response times, and occasional failure to boot properly. These symptoms suggested that the problem might not be a single fault but a combination of hardware and software issues.
-
+# Problem faced
 My initial thought process was to avoid assumptions and focus on observation. I paid close attention to when the errors occurred and what actions triggered them. This helped me narrow the issue down to internal components rather than external devices. I suspected memory-related problems because the system behavior was unpredictable and did not point clearly to one application or process.
 
 After considering this, I decided to inspect the internal hardware. I powered down the system and checked the power source as well as the the router (MiFi) being used, I discovered the power supply cable for the Raspberry Pi was faulty and the router (MiFi) was low on battery. I immediately arranged for a new power supply cable and ensured full charge of the router (MiFi) This action improved system stability, confirming that my reasoning was on the right track.

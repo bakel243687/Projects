@@ -81,6 +81,17 @@ The Active Directory domain was provisioned using:
 * **DNS:** Samba Internal DNS
 * **RFC2307:** Enabled (for Unix/Linux interoperability)
 
+Better still, you can use the command like this
+
+```
+samba-tool domain provision \
+  --use-rfc2307 \
+  --realm=LAB.LOCAL \
+  --domain=LAB \
+  --server-role=dc \
+  --dns-backend=SAMBA_INTERNAL
+```
+
 Samba generated and deployed:
 
 * Internal DNS zone

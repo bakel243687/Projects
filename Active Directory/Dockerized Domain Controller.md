@@ -81,3 +81,10 @@ with the above docker files set in my directory, Using the below commands, the d
 docker-compose 
 
 https://github.com/instantlinux/docker-tools/issues/84
+
+## TroubleShooting
+
+I was not able to build the docker due to commands used in the docker compose file
+I had issues with setting up the samba network like I did in the raspberry pi setup
+I has an issue with downloading optional features for My Windows VM
+Faced with the problem of connecting my docker to the virtual machine as they are both on different networks

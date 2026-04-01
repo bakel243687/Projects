@@ -4,15 +4,25 @@ The below is what this repository should look like
 
 tracemind/
 │
+
 ├── README.md
+
 ├── requirements.txt
+
 ├── .gitignore
+
 │
+
 ├── docs/
+
 │   ├── architecture.md
+
 │   ├── data-flow.md
+
 │   ├── assumptions.md
+
 │   ├── threat-model.md
+
 │
 ├── data/
 │   ├── raw/

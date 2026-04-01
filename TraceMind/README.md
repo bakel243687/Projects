@@ -24,57 +24,110 @@ tracemind/
 │   ├── threat-model.md
 
 │
+
 ├── data/
+
 │   ├── raw/
+
 │   │   ├── synthetic/
+
 │   │   │   └── incident-001.txt
+
 │   │   └── real/
+
 │   │       └── auth-log-001.txt
+
 │   │
+
 │   ├── processed/
+
 │   │   └── incident-001.json
+
 │   │
+
+
 │   └── samples/
+
 │       └── clean-example.txt
+
 │
+
 ├── cases/
+
 │   ├── incident-001-auth-failure/
+
 │   │   ├── scenario.md
+
 │   │   ├── hypothesis.md
+
 │   │   ├── findings.md
+
 │   │   └── conclusion.md
+
 │
+
 ├── src/
+
 │   ├── parser/
+
 │   │   └── parser.py
+
 │   │
+
 │   ├── timeline/
+
 │   │   └── timeline.py
+
 │   │
+
 │   ├── analyzer/
+
 │   │   └── analyzer.py
+
 │   │
+
 │   ├── models/
+
 │   │   └── event_model.py
+
 │   │
+
 │   └── utils/
+
 │       └── helpers.py
+
 │
+
 ├── pipelines/
+
 │   └── incident_pipeline.py
+
 │
+
 ├── outputs/
+
 │   ├── reports/
+
 │   │   └── incident-001-report.md
+
 │   │
+
 │   └── timelines/
+
 │       └── incident-001-timeline.json
+
 │
+
 ├── tests/
+
 │   ├── test_parser.py
+
 │   ├── test_timeline.py
+
 │   └── test_analyzer.py
+
 │
+
 └── scripts/
     ├── ingest_logs.sh
     └── simulate_events.sh

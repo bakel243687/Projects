@@ -21,7 +21,7 @@
 
 ## Overview
 
-Pi-hole is a network-level ad blocker that acts as a DNS sinkhole. Instead of blocking ads on individual devices using browser extensions, Pi-hole intercepts DNS queries at the network level — meaning every device on your network (phones, laptops, smart TVs, IoT devices) gets ad blocking automatically without any additional configuration on each device.
+Pi-hole is a network-level ad blocker that acts as a DNS sinkhole. Instead of blocking ads on individual devices using browser extensions, Pi-hole intercepts DNS queries at the network level, meaning every device on your network (phones, laptops, smart TVs, IoT devices) gets ad blocking automatically without any additional configuration on each device.
 
 <!-- Add a screenshot of the Pi-hole dashboard here -->
 
@@ -37,7 +37,7 @@ Pi-hole is a network-level ad blocker that acts as a DNS sinkhole. Instead of bl
 | **Storage** | MicroSD card (16GB+) |
 | **Access** | SSH from a separate machine |
 
-> **Why Raspberry Pi OS Lite?** No desktop environment means more system resources are dedicated to Pi-hole and DNS resolution. Lite is the ideal choice for headless server projects like this.
+> **Why Raspberry Pi OS Lite?** No desktop environment means more system resources are dedicated to Pi-hole and DNS resolution. Lite is the ideal choice for headless server projects like this and I have no use for a second screen.
 
 ---
 
@@ -224,11 +224,8 @@ Pi-hole is powerful but not a complete ad-blocking solution on its own. Here's a
 
 | Metric | Value |
 |---|---|
-| Pi-hole version | *(add after install)* |
-| Domains on blocklist | *(visible on dashboard)* |
-| Queries blocked (first 24hrs) | *(add after running)* |
-| Percentage blocked | *(add after running)* |
+| Pi-hole version | *Core version is v6.4.1 (Latest: v6.4.1), Web version is v6.5 (Latest: v6.5), FTL version is v6.6 (Latest: v6.6)* |
+| Domains on blocklist | 84,752 |
+| Queries blocked (first 24hrs) | 152 |
+| Percentage blocked | 18.1 |
 
----
-
-*Part of my Raspberry Pi Projects series. See the full list in the main README.*

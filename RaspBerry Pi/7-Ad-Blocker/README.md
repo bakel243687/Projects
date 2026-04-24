@@ -41,7 +41,7 @@ Pi-hole is a network-level ad blocker that acts as a DNS sinkhole. Instead of bl
 
 ---
 
-## Phase 1 — System Preparation
+## Phase 1 - System Preparation
 
 Before installing Pi-hole, update the system to make sure all packages are current.
 
@@ -57,7 +57,7 @@ Wait for the update to complete before moving on.
 
 ---
 
-## Phase 2 — Setting a Static IP
+## Phase 2 - Setting a Static IP
 
 Pi-hole needs a permanent IP address on your network. If the Pi's IP changes (via DHCP), your router's DNS setting will point to the wrong address and DNS resolution will break for every device on the network.
 
@@ -77,12 +77,12 @@ Scroll to the bottom and add the following block:
 
 ```
 interface wlan0
-static ip_address=***REMOVED***/24
-static routers=192.168.0.1
+static ip_address=[***REMOVED***/24]
+static routers=[192.168.0.1]
 static domain_name_servers=8.8.8.8 8.8.4.4
 ```
 
-> **Note:** Replace `***REMOVED***` with your Pi's current IP if it differs. Replace `192.168.0.1` with your router's gateway IP if needed. You can confirm it with `ip route | grep default`.
+> **Note:** Replace `***REMOVED***` with your Pi's current IP if it differs. Replace `192.168.0.1` with your router's gateway IP if needed. You can confirm it with `ip route | grep default`. Or you can decide to change the IP of your router or MiFi to this one if you would like to.
 
 Save the file with **Ctrl + X**, then **Y**, then **Enter**.
 
@@ -98,11 +98,11 @@ After rebooting, confirm the static IP held:
 hostname -I
 ```
 
-It should return `***REMOVED***`.
+It should return `[***REMOVED***]`.
 
 ---
 
-## Phase 3 — Installing Pi-hole
+## Phase 3 - Installing Pi-hole
 
 Pi-hole provides a one-line installer that handles everything automatically:
 
@@ -148,7 +148,7 @@ FTL is running
 Then on any device connected to your network, open a browser and navigate to:
 
 ```
-http://***REMOVED***/admin
+http://[***REMOVED***]/admin
 ```
 
 Log in with the admin password from the installer.
@@ -161,19 +161,19 @@ Log in with the admin password from the installer.
 
 For Pi-hole to cover every device on the network, the router needs to hand out Pi-hole's IP as the DNS server via DHCP.
 
-1. Open a browser and go to your router's admin page (usually `http://192.168.0.1`)
+1. Open a browser and go to your router's admin page (usually `http://[192.168.0.1]`)
 2. Log in with your router admin credentials (often printed on the router)
 3. Navigate to **LAN Settings** → **DHCP Server** or **DNS Settings** (varies by router brand)
 4. Update the DNS fields:
 
 | Field | Value |
 |---|---|
-| **Primary DNS** | `***REMOVED***` |
+| **Primary DNS** | `[***REMOVED***]` |
 | **Secondary DNS** | *(leave blank)* |
 
 5. Save and reboot the router
 
-> **Why leave Secondary DNS blank?** If a secondary DNS like `8.8.8.8` is set, some devices may fall back to it and bypass Pi-hole entirely. Leaving it blank ensures all DNS traffic routes through Pi-hole.
+> **Why leave Secondary DNS blank?** If a secondary DNS like `[8.8.8.8]` is set, some devices may fall back to it and bypass Pi-hole entirely. Leaving it blank ensures all DNS traffic routes through Pi-hole.
 
 After the router reboots, all devices that reconnect will automatically use Pi-hole for DNS.
 
@@ -188,7 +188,7 @@ Device on network
       │
       │  "What's the IP for doubleclick.net?"
       ▼
-   Pi-hole (***REMOVED***)
+   Pi-hole ([***REMOVED***])
       │
       ├── Domain is on blocklist? ──► Return 0.0.0.0 (blocked) ──► No ad loads
       │

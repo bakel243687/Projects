@@ -1,4 +1,4 @@
-# Project 01 — Pi-hole Network Ad Blocker
+# Project 01 - Pi-hole Network Ad Blocker
 
 > Blocking ads network-wide using a Raspberry Pi 5 as a DNS sinkhole.
 

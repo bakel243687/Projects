@@ -1,8 +1,4 @@
 
----
-
-# Document 2: MITRE-Mapping.md
-
 ```markdown
 # MITRE ATT&CK Mapping
 

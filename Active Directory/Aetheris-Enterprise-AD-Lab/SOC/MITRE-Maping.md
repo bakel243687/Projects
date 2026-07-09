@@ -54,3 +54,79 @@ Examples:
 - net.exe
 
 ---
+
+
+## Discovery
+
+Technique:
+
+T1087
+
+Commands:
+
+net user
+Get-ADUser
+
+Technique:
+
+T1069
+
+Commands:
+
+net group
+Get-ADGroup
+
+Technique:
+
+T1016
+
+Commands:
+
+ipconfig
+hostname
+
+---
+
+## Credential Access
+
+Future:
+
+- Credential dumping simulations
+- LSASS monitoring
+
+---
+
+## Lateral Movement
+
+Future:
+
+- PsExec
+- Remote PowerShell
+- SMB authentication
+
+---
+
+## Command and Control
+
+Technique:
+
+T1071
+
+Detection:
+
+Sysmon Event 3
+
+Monitor:
+
+- DNS
+- HTTP
+- HTTPS
+
+---
+
+## Impact
+
+Future:
+
+- File encryption simulation
+- Mass file deletion
